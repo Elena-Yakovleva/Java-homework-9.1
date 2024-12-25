@@ -57,14 +57,14 @@ public class Radio {
     }
 
     // Переключение по номеру канала.
-    public void setRadioNumber(int newCurrentVolume) {
-        if (newCurrentVolume < 0) {
+    public void setRadioNumber(int newChannelNumber) {
+        if (newChannelNumber < 0) {
             return;
         }
-        if (newCurrentVolume > 9) {
+        if (newChannelNumber > 9) {
             return;
         } else {
-            channelNumber = newCurrentVolume;
+            channelNumber = newChannelNumber;
         }
     }
 
