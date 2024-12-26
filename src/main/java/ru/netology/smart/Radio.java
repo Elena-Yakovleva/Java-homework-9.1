@@ -2,14 +2,23 @@ package ru.netology.smart;
 
 public class Radio {
 
+
+    private int minChannelNumber = 0;
+    private int defaultNumberOfChannels = 9;
+    private int maxChannelNumber;
     private int channelNumber;
+
+    private int minCurrentVolume = 0;
+    private int maxCurrentVolume = 100;
     private int currentVolume;
 
-    public void setChannelNumber(int newChannelNumber) {
-        if (newChannelNumber < 0) {
+
+    // Проверка номера канала в границах по умолчанию
+    public void setChannelNumberWithDefaultQuantity(int newChannelNumber) {
+        if (newChannelNumber < minChannelNumber) {
             return;
         }
-        if (newChannelNumber > 9) {
+        if (newChannelNumber > defaultNumberOfChannels) {
             return;
         } else {
             channelNumber = newChannelNumber;
@@ -17,7 +26,7 @@ public class Radio {
     }
 
     public void setCurrentVolume(int newCurrentVolume) {
-        if (newCurrentVolume < 0) {
+        if (newCurrentVolume < minCurrentVolume) {
             return;
         }
         if (newCurrentVolume > 100) {
@@ -36,48 +45,48 @@ public class Radio {
     }
 
 
-    // Переключение по кнопке Next
+    // Переключение по кнопке Next c количеством каналов по умолчанию
     public void next() {
 
-        if (channelNumber < 9) {
+        if (channelNumber < defaultNumberOfChannels) {
             channelNumber++;
         } else {
-            channelNumber = 0;
+            channelNumber = minChannelNumber;
         }
     }
 
-    // Переключение по кнопке Prev
+    // Переключение по кнопке Prev c количеством каналов по умолчанию
     public void prev() {
 
-        if (channelNumber > 0) {
+        if (channelNumber > minChannelNumber) {
             channelNumber--;
         } else {
-            channelNumber = 9;
+            channelNumber = defaultNumberOfChannels;
         }
     }
 
     // Переключение по номеру канала.
-    public void setRadioNumber(int newCurrentVolume) {
-        if (newCurrentVolume < 0) {
+    public void setRadioNumber(int newChannelNumber) {
+        if (newChannelNumber < minChannelNumber) {
             return;
         }
-        if (newCurrentVolume > 9) {
+        if (newChannelNumber > 9) {
             return;
         } else {
-            channelNumber = newCurrentVolume;
+            channelNumber = newChannelNumber;
         }
     }
 
     // Увеличение звука
     public void increaseVolume() {
-        if (currentVolume < 100) {
+        if (currentVolume < maxCurrentVolume) {
             currentVolume++;
         }
     }
 
     // Уменьшение звука
     public void reduceVolume() {
-        if (currentVolume > 0) {
+        if (currentVolume > minCurrentVolume) {
             currentVolume--;
         }
     }

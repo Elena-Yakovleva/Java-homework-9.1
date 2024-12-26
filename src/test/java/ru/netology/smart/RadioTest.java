@@ -10,20 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RadioTest {
 
-     // Проверка граничных значений номеров каналов ниже нижней границы и выше верхней границы
+    Radio service = new Radio();
+
+    // Проверка граничных значений номеров каналов ниже нижней границы и выше верхней границы
     @ParameterizedTest
     @CsvSource({
             "0, -1",
             "0, 10"
-
     })
     public void setChannelNumberText(int expected, int newChannelNumber) {
-        Radio service = new Radio();
 
-        service.setChannelNumber(newChannelNumber);
-        int actual = service.getChannelNumber();
-        Assertions.assertEquals(expected, actual);
-
+        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
+        Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
     // Проверка граничных значений громкости звука ниже нижней границы и выше верхней границы
@@ -31,15 +29,11 @@ class RadioTest {
     @CsvSource({
             "0, -1",
             "0, 101"
-
     })
     public void setCurrentVolumeText(int expected, int newCurrentVolume) {
-        Radio service = new Radio();
 
         service.setCurrentVolume(newCurrentVolume);
-        int actual = service.getChannelNumber();
-        Assertions.assertEquals(expected, actual);
-
+        Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
     // Переключение каналов кнопкой Next
@@ -51,12 +45,10 @@ class RadioTest {
             "0, 9"
     })
     public void switchingByNext(int expected, int newChannelNumber) {
-        Radio service = new Radio();
 
-        service.setChannelNumber(newChannelNumber);
+        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
         service.next();
-        int actual = service.getChannelNumber();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
     // Переключение каналов кнопкой Prev
@@ -68,13 +60,10 @@ class RadioTest {
             "9, 0"
     })
     public void switchingByPrev(int expected, int newChannelNumber) {
-        Radio service = new Radio();
 
-        service.setChannelNumber(newChannelNumber);
+        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
         service.prev();
-        int actual = service.getChannelNumber();
-        Assertions.assertEquals(expected, actual);
-
+        Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
     // Переключение кнопками каналов
@@ -86,14 +75,11 @@ class RadioTest {
             "8, 8",
             "9, 9",
             "0, 10"
-
     })
     public void switchingButtonNumber(int expected, int newChannelNumber) {
-        Radio service = new Radio();
 
         service.setRadioNumber(newChannelNumber);
-        int actual = service.getChannelNumber();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
     // Проверка увеличения громкости звука
@@ -106,13 +92,10 @@ class RadioTest {
             "100, 100"
     })
     public void increaseSound(int expected, int newCurrentVolume) {
-        Radio service = new Radio();
 
         service.setCurrentVolume(newCurrentVolume);
         service.increaseVolume();
-        int actual = service.getCurrentVolume();
-        Assertions.assertEquals(expected, actual);
-
+        Assertions.assertEquals(expected, service.getCurrentVolume());
     }
 
     // Проверка уменьшения звука
@@ -123,17 +106,16 @@ class RadioTest {
             "1, 2",
             "0, 1",
             "0, 0"
-
     })
     public void reductionSound(int expected, int newCurrentVolume) {
-        Radio service = new Radio();
 
         service.setCurrentVolume(newCurrentVolume);
         service.reduceVolume();
-        int actual = service.getCurrentVolume();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, service.getCurrentVolume());
     }
+
 }
+
 
 
 
