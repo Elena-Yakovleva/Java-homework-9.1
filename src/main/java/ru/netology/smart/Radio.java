@@ -3,65 +3,84 @@ package ru.netology.smart;
 public class Radio {
 
 
-    private int minChannelNumber = 0;
-    private int defaultNumberOfChannels = 9;
+    private int minChannelNumber;
     private int maxChannelNumber;
     private int channelNumber;
 
-    private int minCurrentVolume = 0;
-    private int maxCurrentVolume = 100;
+    private int minCurrentVolume;
+    private int maxCurrentVolume;
     private int currentVolume;
 
+    public Radio() {
+        // присвоение минимальных и максимальных значений по умолчанию
+        this.minChannelNumber = 0;
+        this.maxChannelNumber = 9;
+        this.minCurrentVolume = 0;
+        this.maxCurrentVolume = 100;
 
-    // Проверка номера канала в границах по умолчанию
-    public void setChannelNumberWithDefaultQuantity(int newChannelNumber) {
+    }
+    // присвоение максимального значение пользователем
+    public Radio(int size) {
+        this.maxChannelNumber = (size - 1);
+    }
+
+
+    // Проверка номера канала в границах по умолчанию с помощью сеттера
+    public void setChannelNumber(int newChannelNumber) {
         if (newChannelNumber < minChannelNumber) {
             return;
         }
-        if (newChannelNumber > defaultNumberOfChannels) {
+        if (newChannelNumber > maxChannelNumber) {
             return;
         } else {
             channelNumber = newChannelNumber;
         }
     }
-
+    // Проверка громкости звука в границах по умолчанию с помощью сеттера
     public void setCurrentVolume(int newCurrentVolume) {
         if (newCurrentVolume < minCurrentVolume) {
             return;
         }
-        if (newCurrentVolume > 100) {
+        if (newCurrentVolume > maxCurrentVolume) {
             return;
         } else {
             currentVolume = newCurrentVolume;
         }
     }
-
+    //Создание геттеров для вывода информации
     public int getChannelNumber() {
+
         return channelNumber;
     }
 
     public int getCurrentVolume() {
+
         return currentVolume;
     }
 
+    public int getMaxChannelNumber() {
+        return
+                maxChannelNumber;
+    }
 
-    // Переключение по кнопке Next c количеством каналов по умолчанию
+
+    // Переключение по кнопке Next
     public void next() {
 
-        if (channelNumber < defaultNumberOfChannels) {
+        if (channelNumber < maxChannelNumber) {
             channelNumber++;
         } else {
             channelNumber = minChannelNumber;
         }
     }
 
-    // Переключение по кнопке Prev c количеством каналов по умолчанию
+    // Переключение по кнопке Prev
     public void prev() {
 
         if (channelNumber > minChannelNumber) {
             channelNumber--;
         } else {
-            channelNumber = defaultNumberOfChannels;
+            channelNumber = maxChannelNumber;
         }
     }
 
@@ -70,7 +89,7 @@ public class Radio {
         if (newChannelNumber < minChannelNumber) {
             return;
         }
-        if (newChannelNumber > 9) {
+        if (newChannelNumber > maxChannelNumber) {
             return;
         } else {
             channelNumber = newChannelNumber;

@@ -12,15 +12,16 @@ class RadioTest {
 
     Radio service = new Radio();
 
+    // Тесты на проверку для параметров заданных по умолчанию
     // Проверка граничных значений номеров каналов ниже нижней границы и выше верхней границы
     @ParameterizedTest
     @CsvSource({
             "0, -1",
             "0, 10"
     })
-    public void setChannelNumberText(int expected, int newChannelNumber) {
+    public void setChannelNumberTest(int expected, int newChannelNumber) {
 
-        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
+        service.setChannelNumber(newChannelNumber);
         Assertions.assertEquals(expected, service.getChannelNumber());
     }
 
@@ -30,7 +31,7 @@ class RadioTest {
             "0, -1",
             "0, 101"
     })
-    public void setCurrentVolumeText(int expected, int newCurrentVolume) {
+    public void setCurrentVolumeTest(int expected, int newCurrentVolume) {
 
         service.setCurrentVolume(newCurrentVolume);
         Assertions.assertEquals(expected, service.getChannelNumber());
@@ -46,7 +47,7 @@ class RadioTest {
     })
     public void switchingByNext(int expected, int newChannelNumber) {
 
-        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
+        service.setChannelNumber(newChannelNumber);
         service.next();
         Assertions.assertEquals(expected, service.getChannelNumber());
     }
@@ -61,7 +62,7 @@ class RadioTest {
     })
     public void switchingByPrev(int expected, int newChannelNumber) {
 
-        service.setChannelNumberWithDefaultQuantity(newChannelNumber);
+        service.setChannelNumber(newChannelNumber);
         service.prev();
         Assertions.assertEquals(expected, service.getChannelNumber());
     }
@@ -113,6 +114,134 @@ class RadioTest {
         service.reduceVolume();
         Assertions.assertEquals(expected, service.getCurrentVolume());
     }
+
+    // Тесты на проверку для параметра maxChannelNumber заданного клиентом
+    // Проверка возможности изменения количества каналов
+    @ParameterizedTest
+    @CsvSource({
+            "4, 5",
+            "14, 15"
+    })
+
+    public void selectingNumberOfChannels(int expected, int size) {
+        Radio service = new Radio(size);
+
+        Assertions.assertEquals(expected, service.getMaxChannelNumber());
+
+    }
+    // Проверка данных за пределами границ выбранного клиентом количества каналов
+    @ParameterizedTest
+    @CsvSource({
+            "0, -1",
+            "0, 5"
+    })
+    public void verifyLimits5(int expected, int newChannelNumber){
+        Radio service = new Radio(5); //  выбрано 5 каналов
+
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, -1",
+            "0, 15"
+    })
+    public void verifyLimits15(int expected, int newChannelNumber){
+        Radio service = new Radio(15); //  выбрано 15 каналов
+
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    //Переключение каналов кнопкой Next для заданного количества каналов
+    @ParameterizedTest
+    @CsvSource({
+            "1, 0",
+            "2, 1",
+            "4, 3",
+            "0, 4"
+    })
+    public void switchingByNextFrom5Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(5); //  выбрано 5 каналов
+
+        service.setChannelNumber(newChannelNumber);
+        service.next();
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1, 0",
+            "2, 1",
+            "14, 13",
+            "0, 14"
+    })
+    public void switchingByNextFrom15Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(15); //  выбрано 15 каналов
+
+        service.setChannelNumber(newChannelNumber);
+        service.next();
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    //Переключение каналов кнопкой Prev для заданного количества каналов
+    @ParameterizedTest
+    @CsvSource({
+            "3, 4",
+            "1, 2",
+            "0, 1",
+            "4, 0"
+    })
+    public void switchingByPrevFrom5Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(5); //  выбрано 5 каналов
+
+        service.setChannelNumber(newChannelNumber);
+        service.prev();
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "13, 14",
+            "1, 2",
+            "0, 1",
+            "14, 0"
+    })
+    public void switchingByPrevFrom15Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(15); //  выбрано 15 каналов
+
+        service.setChannelNumber(newChannelNumber);
+        service.prev();
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    // Проверка переключения каналов по кнопкам для выбранного клиентом количества каналов
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0",
+            "1, 1",
+            "4, 4"
+    })
+    public  void switchingButtonNumberFor5Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(5); //  выбрано 5 каналов
+
+        service.setRadioNumber(newChannelNumber);
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0",
+            "1, 1",
+            "14, 14"
+    })
+    public  void switchingButtonNumberFor15Channels(int expected, int newChannelNumber){
+        Radio service = new Radio(15); //  выбрано 15 каналов
+
+        service.setRadioNumber(newChannelNumber);
+        Assertions.assertEquals(expected, service.getChannelNumber());
+    }
+
+
 
 }
 
